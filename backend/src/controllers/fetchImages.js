@@ -6,14 +6,16 @@ const fetchImages = async (req, res, next) => {
     endpoint: { url },
   } = config;
 
-  const {
-    data: { entries = [] },
-  } = await axios.get(url);
+  try {
+    const {
+      data: { entries = [] },
+    } = await axios.get(url);
 
-
-  res.locals.response = entries;
-
-  return next();
+    res.locals.response = entries;
+    return next();
+  } catch (err) {
+    return next(err);
+  }
 };
 
 export default fetchImages;
