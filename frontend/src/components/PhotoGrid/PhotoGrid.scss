@@ -1,4 +1,4 @@
-.PhotoGallery {
+.PhotoGrid {
   &-header {
     display: flex;
     justify-content: space-between;
@@ -8,4 +8,8 @@
   &-notification {
     font-size: 20px;
   }
+}
+
+.back {
+    margin-right: 10px;
 }

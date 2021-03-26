@@ -13,8 +13,6 @@ const PhotoGallery = () => {
 
   const isGridReady = selectedImages.length === config.imagesPerGrid;
 
-  console.log(isGrid);
-
   const handleImageToggle = ({ isSelected, photo }) => {
     if (isSelected) {
       const newSelectedImages = selectedImages.filter(
@@ -32,9 +30,11 @@ const PhotoGallery = () => {
   };
 
   const imageRenderer = ({ index, left, top, key, photo }) => {
+    const selected = selectedImages.find(({ id }) => id === photo.id);
+
     return (
       <SelectedImage
-        selected={false}
+        selected={selected}
         key={key}
         margin={"2px"}
         index={index}
@@ -57,8 +57,7 @@ const PhotoGallery = () => {
         <Button
           enabled={isGridReady}
           onClick={() => {
-            console.log("test", !isGrid);
-            dispatch(toggleGrid(!isGrid));
+            isGridReady && dispatch(toggleGrid(!isGrid));
           }}
         >
           Next
