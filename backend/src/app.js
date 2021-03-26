@@ -64,14 +64,38 @@ api.get("/grid/:fingerPrint", async (req, res) => {
 
 api.post("/grid", async (req, res) => {
   const { fingerPrint, imageGrid } = req.body;
-
   const grid = new Grid({
     fingerPrint,
     imageGrid,
   });
+
   try {
-    const newGrid = await grid.save();
-    res.status(201).json(newGrid);
+    const existingGrid = await Grid.find({ fingerPrint });
+    if (existingGrid.length) {
+      const id = existingGrid[0]._id;
+      const result = await Grid.findByIdAndUpdate(
+        id,
+        {
+          fingerPrint,
+          imageGrid,
+        },
+        { new: true }
+      );
+      res.status(200).json(result);
+    } else {
+      const newGrid = await grid.save();
+      res.status(200).json(newGrid);
+    }
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+});
+
+api.delete("/grid/:fingerPrint", async (req, res) => {
+  try {
+    const { fingerPrint } = req.params;
+    await Grid.remove({ fingerPrint });
+    res.status(200).json({ message: "success" });
   } catch (e) {
     res.status(500).json({ message: e.message });
   }

@@ -11,6 +11,8 @@ services:
       - ${BACKEND_PORT}:${BACKEND_PORT}
     volumes:
       - ./backend/src:/srv/app/backend/src
+    networks:
+      - webappnetwork
 
   client:
     build: "./frontend"
@@ -24,3 +26,18 @@ services:
       - server
     volumes:
       - ./frontend/src:/srv/app/frontend/src
+    networks:
+      - webappnetwork
+
+  mongodb:
+    image: mongo
+    restart: always
+    container_name: mongodb
+    ports:
+      - 27017:27017
+    networks:
+      - webappnetwork
+
+networks:
+  webappnetwork:
+    driver: bridge

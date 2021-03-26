@@ -4,7 +4,7 @@ import Gallery from "react-photo-gallery";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import arrayMove from "array-move";
 
-import { toggleGrid } from "../../redux/actions";
+import { toggleGrid, saveGrid } from "../../redux/actions";
 import { Button, DragableImage } from "..";
 
 import "./PhotoGrid.scss";
@@ -21,11 +21,10 @@ const PhotoGrid = () => {
       renderImage={(props) => <SortablePhoto {...props} />}
     />
   ));
+
   const onSortEnd = ({ oldIndex, newIndex }) => {
     setItems(arrayMove(items, oldIndex, newIndex));
   };
-//   console.log('selectedImages', selectedImages);
-//   console.log('items', items);
 
   return (
     <div className="PhotoGrid">
@@ -41,7 +40,10 @@ const PhotoGrid = () => {
           >
             Back
           </Button>
-          <Button enabled={true} onClick={() => {}}>
+          <Button
+            enabled={true}
+            onClick={() => dispatch(saveGrid({ imageGrid: items }))}
+          >
             Save
           </Button>
         </div>

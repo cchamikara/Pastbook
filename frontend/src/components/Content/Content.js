@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { fetchImages } from "../../redux/actions";
-import { PhotoGallery, PhotoGrid } from "../";
+import { fetchImages, fetchGrid } from "../../redux/actions";
+import { PhotoGallery, PhotoGrid, MyGrid } from "../";
 
 const Content = () => {
   const dispatch = useDispatch();
@@ -11,16 +11,28 @@ const Content = () => {
     dispatch(fetchImages());
   }, [dispatch]);
 
-  const { isLoading, isGrid } = useSelector((state) => state);
+  useEffect(() => {
+    dispatch(fetchGrid());
+  }, [dispatch]);
+
+  const { isLoading, isGrid, isExistingUser } = useSelector((state) => state);
+
+  const RenderContent = () => {
+    if (isLoading) {
+      return <div>Loading...</div>;
+    } else if (isExistingUser) {
+      return <MyGrid />;
+    } else if (isGrid) {
+      return <PhotoGrid />;
+    } else {
+      return <PhotoGallery />;
+    }
+  };
 
   return (
-    <div>
-      {isLoading ? (
-        <div>Loading...</div>
-      ) : (
-        <>{isGrid ? <PhotoGrid /> : <PhotoGallery />}</>
-      )}
-    </div>
+    <>
+      <RenderContent />
+    </>
   );
 };
 
