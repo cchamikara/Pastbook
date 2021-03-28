@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Gallery from "react-photo-gallery";
 
@@ -10,19 +11,21 @@ import "./PhotoGallery.scss";
 const PhotoGallery = () => {
   const dispatch = useDispatch();
   const { images, selectedImages, isGrid } = useSelector((state) => state);
+  const [alteredImageSelection, setAlteredImages] = useState(selectedImages);
 
-  const isGridReady = selectedImages.length === config.imagesPerGrid;
+  const isGridReady = alteredImageSelection.length === config.imagesPerGrid;
 
   const handleImageToggle = ({ isSelected, photo }) => {
     if (isSelected) {
-      const newSelectedImages = selectedImages.filter(
+      const newSelectedImages = alteredImageSelection.filter(
         ({ id }) => id !== photo.id
       );
-      dispatch(toggleSelectedImages(newSelectedImages));
+      setAlteredImages(newSelectedImages);
     } else {
-      if (selectedImages.length < config.imagesPerGrid) {
-        const newSelectedImages = [...selectedImages, photo];
-        dispatch(toggleSelectedImages(newSelectedImages));
+      if (alteredImageSelection.length < config.imagesPerGrid) {
+        const newSelectedImages = [...alteredImageSelection, photo];
+        setAlteredImages(newSelectedImages);
+        // dispatch(toggleSelectedImages(newSelectedImages));
       } else {
         console.log("you can select only 9 images");
       }
@@ -30,7 +33,7 @@ const PhotoGallery = () => {
   };
 
   const imageRenderer = ({ index, left, top, key, photo }) => {
-    const selected = selectedImages.find(({ id }) => id === photo.id);
+    const selected = alteredImageSelection.find(({ id }) => id === photo.id);
 
     return (
       <SelectedImage
@@ -41,6 +44,7 @@ const PhotoGallery = () => {
         photo={photo}
         left={left}
         top={top}
+        alteredImageSelection={alteredImageSelection}
         handleImageToggle={handleImageToggle}
       />
     );
@@ -51,13 +55,14 @@ const PhotoGallery = () => {
       <div className="PhotoGallery-header">
         <div className="PhotoGallery-notification">
           {!isGridReady
-            ? `You need to select ${selectedImages.length}/${config.imagesPerGrid} more images`
+            ? `You need to select ${alteredImageSelection.length}/${config.imagesPerGrid} more images`
             : "Great proceed to next step"}
         </div>
         <Button
           enabled={isGridReady}
           onClick={() => {
             isGridReady && dispatch(toggleGrid(!isGrid));
+            dispatch(toggleSelectedImages(alteredImageSelection));
           }}
         >
           Next

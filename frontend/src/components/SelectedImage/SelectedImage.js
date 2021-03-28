@@ -51,9 +51,9 @@ const SelectedImage = ({
   left,
   selected,
   handleImageToggle,
+  alteredImageSelection,
 }) => {
   const [isSelected, setIsSelected] = useState(selected);
-  const { selectedImages } = useSelector((state) => state);
 
   //calculate x,y scale
   const sx = (100 - (30 / photo.width) * 100) / 100;
@@ -67,7 +67,7 @@ const SelectedImage = ({
   }
 
   const handleOnClick = (e) => {
-    if (selectedImages.length === config.imagesPerGrid) {
+    if (alteredImageSelection.length === config.imagesPerGrid) {
       if (!isSelected === false) {
         setIsSelected(!isSelected);
       }
