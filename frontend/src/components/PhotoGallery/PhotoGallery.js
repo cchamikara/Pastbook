@@ -56,7 +56,7 @@ const PhotoGallery = () => {
         <div className="PhotoGallery-notification">
           {!isGridReady
             ? `You need to select ${alteredImageSelection.length}/${config.imagesPerGrid} more images`
-            : "Great proceed to next step"}
+            : "Proceed to next step or alter selection"}
         </div>
         <Button
           enabled={isGridReady}

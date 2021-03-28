@@ -8,8 +8,11 @@
   &-notification {
     font-size: 20px;
   }
-}
 
-.back {
-    margin-right: 10px;
+  &-backButton {
+    &.enabled {
+      margin-right: 10px;
+      background: lightgray;
+    }
+  }
 }

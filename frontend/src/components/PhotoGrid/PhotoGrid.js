@@ -28,15 +28,15 @@ const PhotoGrid = () => {
 
   return (
     <div className="PhotoGrid">
-      <div className="PhotoGallery-header">
-        <div className="PhotoGallery-notification">
+      <div className="PhotoGrid-header">
+        <div className="PhotoGrid-notification">
           Order your photo grid by dragging and dropping images
         </div>
         <div>
           <Button
             enabled={true}
             onClick={() => dispatch(toggleGrid(!isGrid))}
-            style={{ marginRight: "10px", background: "lightgray" }}
+            className="Button PhotoGrid-backButton"
           >
             Back
           </Button>
