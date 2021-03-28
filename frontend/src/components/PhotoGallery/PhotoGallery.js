@@ -25,7 +25,6 @@ const PhotoGallery = () => {
       if (alteredImageSelection.length < config.imagesPerGrid) {
         const newSelectedImages = [...alteredImageSelection, photo];
         setAlteredImages(newSelectedImages);
-        // dispatch(toggleSelectedImages(newSelectedImages));
       } else {
         console.log("you can select only 9 images");
       }
